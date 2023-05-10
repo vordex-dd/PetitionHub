@@ -23,6 +23,7 @@ class PetitionsViewController: UIViewController {
             let authViewController = AuthenticationViewController()
             authViewController.user = user
             navigationController?.pushViewController(authViewController, animated: true)
+            //present(authViewController, animated: true)
         }
         // Do any additional setup after loading the view.
     }

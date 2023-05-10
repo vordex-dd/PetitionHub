@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Firebase
 class AuthenticationViewController: UIViewController {
 
     var user: UserProfile?
@@ -21,15 +21,74 @@ class AuthenticationViewController: UIViewController {
         view.backgroundColor = CONFIG.backgroundColor
         title = "Аутентификация"
         navigationItem.rightBarButtonItem = .init(title: "Готово", style: .done, target: self, action: #selector(onButtonTapped))
-        
+        navigationItem.hidesBackButton = true
         setUpSegmentControl()
         setUpUserParametrs()
         setUpStack()
     }
     
     @objc func onButtonTapped() {
-        //TODO
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = .medium
+        activityIndicator.startAnimating()
+        let barButton = UIBarButtonItem(customView: activityIndicator)
+        navigationItem.rightBarButtonItem = barButton
+        guard let email = userParametrs[0].text, let password = userParametrs[1].text else {
+            showAlert("Нужно заполнить все поля")
+            navigationItem.rightBarButtonItem = .init(title: "Готово", style: .done, target: self, action: #selector(onButtonTapped))
+            return
+        }
+        if email.isEmpty || password.isEmpty {
+            showAlert("Нужно заполнить все поля")
+            navigationItem.rightBarButtonItem = .init(title: "Готово", style: .done, target: self, action: #selector(onButtonTapped))
+            return
+        }
+        switch curStatusAuth {
+        case .login:
+            Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+                if error == nil {
+                    self?.succes()
+                }else{
+                    self?.signInFallied(0)
+                }
+                self?.navigationItem.rightBarButtonItem = .init(title: "Готово", style: .done, target: self, action: #selector(self?.onButtonTapped))
+            }
+        case .registration:
+            Auth.auth().createUser(withEmail: email, password: password, completion:  {
+                [weak self] (result, error) in
+                if error == nil {
+                    self?.succes()
+                }else{
+                    self?.showAlert("Ошибка регистрации")
+                }
+                self?.navigationItem.rightBarButtonItem = .init(title: "Готово", style: .done, target: self, action: #selector(self?.onButtonTapped))
+            })
+        }
+    }
+    
+    func succes() {
+        user?.readyAuth()
         navigationController?.popViewController(animated: true)
+    }
+    
+    func signInFallied(_ i: Int) {
+        if i == 0 {
+            let impactMed = UIImpactFeedbackGenerator(style: .medium)
+            impactMed.impactOccurred()
+        }
+        if i > 6 {
+            return
+        }
+        let cnt = [5, -10, +10, -10, 10, -10, 5][i]
+        UIView.animate(withDuration: 0.08, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+            let password = self?.userParametrs[1]
+            password?.center.x += CGFloat(cnt)
+            //password?.center.x -= 10
+            //password?.center.x += 10
+            //password?.center.x -= 5
+        }) { [weak self] _ in
+            self?.signInFallied(i + 1)
+        }
     }
     
     func setUpSegmentControl() {
@@ -58,7 +117,10 @@ class AuthenticationViewController: UIViewController {
             textField.setRightPaddingPoints(10)
         }
         userParametrs[0].placeholder = "Email"
+        userParametrs[0].textContentType = .emailAddress
         userParametrs[1].placeholder = "Пароль"
+        userParametrs[1].textContentType = .password
+        userParametrs[1].isSecureTextEntry = true
         stack.addArrangedSubview(userParametrs[0])
         stack.addArrangedSubview(userParametrs[1])
     }
@@ -76,8 +138,13 @@ class AuthenticationViewController: UIViewController {
     }
     
     @objc func changeTypeAuth(sender: UISegmentedControl) {
-        print(sender.selectedSegmentIndex)
         curStatusAuth = StatusAuth(rawValue: sender.selectedSegmentIndex) ?? .login
+    }
+    
+    func showAlert(_ message: String) {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Понятно", style: .default))
+        present(alert, animated: true)
     }
 }
 
