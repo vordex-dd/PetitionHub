@@ -9,11 +9,21 @@ import UIKit
 
 class PetitionsViewController: UIViewController {
 
+    private let user = UserProfile()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.overrideUserInterfaceStyle = .dark
         view.backgroundColor = CONFIG.backgroundColor
         title = "Петиции"
+        navigationController?.navigationBar.tintColor = CONFIG.segmentSelectedColor
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        if user.openAuth() {
+            let authViewController = AuthenticationViewController()
+            authViewController.user = user
+            navigationController?.pushViewController(authViewController, animated: true)
+        }
         // Do any additional setup after loading the view.
     }
     

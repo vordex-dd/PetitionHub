@@ -13,6 +13,9 @@
 		0A7CD9052A0BC4A80024E5F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A7CD9032A0BC4A80024E5F6 /* LaunchScreen.storyboard */; };
 		0A7CD90D2A0BC8D10024E5F6 /* PetitionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CD90C2A0BC8D10024E5F6 /* PetitionsViewController.swift */; };
 		0A7CD90F2A0BCBED0024E5F6 /* ConfigColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CD90E2A0BCBED0024E5F6 /* ConfigColor.swift */; };
+		0A7CD9112A0BD07A0024E5F6 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CD9102A0BD07A0024E5F6 /* AuthenticationViewController.swift */; };
+		0A7CD9152A0BD3920024E5F6 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CD9142A0BD3920024E5F6 /* UserProfile.swift */; };
+		0A7CD9182A0BDF6B0024E5F6 /* StatusAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CD9172A0BDF6B0024E5F6 /* StatusAuth.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		0A7CD9062A0BC4A80024E5F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A7CD90C2A0BC8D10024E5F6 /* PetitionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetitionsViewController.swift; sourceTree = "<group>"; };
 		0A7CD90E2A0BCBED0024E5F6 /* ConfigColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigColor.swift; sourceTree = "<group>"; };
+		0A7CD9102A0BD07A0024E5F6 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
+		0A7CD9142A0BD3920024E5F6 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		0A7CD9172A0BDF6B0024E5F6 /* StatusAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusAuth.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +62,42 @@
 		0A7CD8F72A0BC4A20024E5F6 /* PetitionHub */ = {
 			isa = PBXGroup;
 			children = (
+				0A7CD9162A0BDF4F0024E5F6 /* Model */,
+				0A7CD9132A0BD36F0024E5F6 /* ViewController */,
+				0A7CD9122A0BD3450024E5F6 /* Service */,
 				0A7CD8F82A0BC4A20024E5F6 /* AppDelegate.swift */,
 				0A7CD8FA2A0BC4A20024E5F6 /* SceneDelegate.swift */,
 				0A7CD9012A0BC4A80024E5F6 /* Assets.xcassets */,
 				0A7CD9032A0BC4A80024E5F6 /* LaunchScreen.storyboard */,
 				0A7CD9062A0BC4A80024E5F6 /* Info.plist */,
-				0A7CD90C2A0BC8D10024E5F6 /* PetitionsViewController.swift */,
 				0A7CD90E2A0BCBED0024E5F6 /* ConfigColor.swift */,
 			);
 			path = PetitionHub;
+			sourceTree = "<group>";
+		};
+		0A7CD9122A0BD3450024E5F6 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				0A7CD9142A0BD3920024E5F6 /* UserProfile.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		0A7CD9132A0BD36F0024E5F6 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0A7CD90C2A0BC8D10024E5F6 /* PetitionsViewController.swift */,
+				0A7CD9102A0BD07A0024E5F6 /* AuthenticationViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		0A7CD9162A0BDF4F0024E5F6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0A7CD9172A0BDF6B0024E5F6 /* StatusAuth.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +171,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A7CD8F92A0BC4A20024E5F6 /* AppDelegate.swift in Sources */,
+				0A7CD9152A0BD3920024E5F6 /* UserProfile.swift in Sources */,
 				0A7CD90F2A0BCBED0024E5F6 /* ConfigColor.swift in Sources */,
+				0A7CD9182A0BDF6B0024E5F6 /* StatusAuth.swift in Sources */,
+				0A7CD9112A0BD07A0024E5F6 /* AuthenticationViewController.swift in Sources */,
 				0A7CD90D2A0BC8D10024E5F6 /* PetitionsViewController.swift in Sources */,
 				0A7CD8FB2A0BC4A20024E5F6 /* SceneDelegate.swift in Sources */,
 			);
