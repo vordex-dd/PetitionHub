@@ -25,18 +25,24 @@ class PetitionsViewController: UIViewController {
             navigationController?.pushViewController(authViewController, animated: true)
             //present(authViewController, animated: true)
         }
+        
+        setUpRightButton()
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setUpRightButton() {
+        let person: UIButton = UIButton(type: UIButton.ButtonType.custom)
+        let personImage = UIImage(systemName: "plus")
+        person.setImage(personImage, for: .normal)
+        person.addTarget(self, action: #selector(toCreate), for: UIControl.Event.touchUpInside)
+        person.tintColor = .systemGreen
+        let rightbarButtonItem = UIBarButtonItem(customView: person)
+        navigationItem.rightBarButtonItem = rightbarButtonItem
     }
-    */
+
+    @objc func toCreate() {
+        let createViewController = CreateViewController()
+        navigationController?.pushViewController(createViewController, animated: true)
+    }
 
 }
