@@ -11,7 +11,7 @@ import Firebase
 class CreateViewController: UIViewController {
 
     private lazy var textField = UITextField()
-    var ref: DatabaseReference! = Database.database().reference()
+    private var ref: DatabaseReference! = Database.database().reference()
     
     override func viewDidLoad() {
         super.viewDidLoad()

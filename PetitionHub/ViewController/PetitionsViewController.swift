@@ -6,10 +6,17 @@
 //
 
 import UIKit
+import Firebase
 
 class PetitionsViewController: UIViewController {
 
     private let user = UserProfile()
+    private var allPetition: [Petition] = [] {
+        didSet {
+            table.reloadData()        }
+    }
+    private var table = UITableView()
+    private var ref: DatabaseReference! = Database.database().reference()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +32,9 @@ class PetitionsViewController: UIViewController {
             navigationController?.pushViewController(authViewController, animated: true)
             //present(authViewController, animated: true)
         }
-        
         setUpRightButton()
-        // Do any additional setup after loading the view.
+        setUpTable()
+        load()
     }
     
     func setUpRightButton() {
@@ -44,5 +51,47 @@ class PetitionsViewController: UIViewController {
         let createViewController = CreateViewController()
         navigationController?.pushViewController(createViewController, animated: true)
     }
+    
+    func setUpTable() {
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.backgroundColor = CONFIG.backgroundColor
+        table.delegate = self
+        table.dataSource = self
+        view.addSubview(table)
+        table.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        table.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        table.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        table.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func load() {
+        ref.child("petitions").observe(DataEventType.value) { [weak self] data   in
+            guard let information = data.value as? [String: Int] else { return }
+            self?.allPetition = []
+            for (key, value) in information {
+                self?.allPetition.append(Petition(title: key, count: value))
+            }
+        }
+    }
 
+}
+
+
+extension PetitionsViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        allPetition.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        cell.backgroundColor = CONFIG.deviderColor
+        cell.layer.cornerRadius = CONFIG.cornerRadius
+        cell.textLabel?.text = allPetition[indexPath.row].title
+        cell.detailTextLabel?.text = "Подписей: \(allPetition[indexPath.row].count)"
+        cell.textLabel?.numberOfLines = 0
+        cell.separatorInset = UIEdgeInsets(top: 100, left: 0, bottom: 10, right: 0)
+        return cell
+    }
+    
+    
 }

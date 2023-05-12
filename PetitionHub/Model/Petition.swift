@@ -6,15 +6,9 @@
 //
 
 import Foundation
-
+import Firebase
 
 struct Petition {
     let title: String
-    let count: Int = 0
-}
-
-class Petitions {
-    var all: [Petition] {
-        [Petition(title: "aboba")]
-    }
+    let count: Int
 }
