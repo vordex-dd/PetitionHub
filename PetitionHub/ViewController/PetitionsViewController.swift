@@ -13,7 +13,10 @@ class PetitionsViewController: UIViewController {
     private let user = UserProfile()
     private var allPetition: [Petition] = [] {
         didSet {
-            table.reloadData()        }
+            DispatchQueue.main.async {
+                self.table.reloadData()
+            }
+        }
     }
     private var table = UITableView()
     private var ref: DatabaseReference! = Database.database().reference()
@@ -84,7 +87,7 @@ extension PetitionsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.backgroundColor = CONFIG.deviderColor
+        cell.backgroundColor = CONFIG.backgroundColor
         cell.layer.cornerRadius = CONFIG.cornerRadius
         cell.textLabel?.text = allPetition[indexPath.row].title
         cell.detailTextLabel?.text = "Подписей: \(allPetition[indexPath.row].count)"
