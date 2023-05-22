@@ -69,11 +69,12 @@ class PetitionsViewController: UIViewController {
     
     func load() {
         ref.child("petitions").observe(DataEventType.value) { [weak self] data   in
-            guard let information = data.value as? [String: Int] else { return }
+            guard let information = data.value as? [String: [String: Any]] else { return }
             self?.allPetition = []
             for (key, value) in information {
-                self?.allPetition.append(Petition(title: key, count: value))
+                self?.allPetition.append(Petition(title: key, description: value["description"] as? String ?? "", tags: value["tags"] as? String ?? "", count: value["count"] as? Int ?? 0))
             }
+            self?.allPetition.sort { $0.count > $1.count }
         }
     }
 
@@ -87,10 +88,13 @@ extension PetitionsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let curPerson = allPetition[indexPath.row]
         cell.backgroundColor = CONFIG.backgroundColor
         cell.layer.cornerRadius = CONFIG.cornerRadius
-        cell.textLabel?.text = allPetition[indexPath.row].title
-        cell.detailTextLabel?.text = "Подписей: \(allPetition[indexPath.row].count)"
+        cell.textLabel?.text = curPerson.title
+        cell.textLabel?.numberOfLines = 0
+        cell.detailTextLabel?.numberOfLines = 0
+        cell.detailTextLabel?.text = "\(curPerson.description)\nТеги: \(curPerson.tags)\nПодписей: \(curPerson.count)"
         cell.textLabel?.numberOfLines = 0
         cell.separatorInset = UIEdgeInsets(top: 100, left: 0, bottom: 10, right: 0)
         return cell

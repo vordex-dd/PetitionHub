@@ -10,5 +10,7 @@ import Firebase
 
 struct Petition {
     let title: String
+    let description: String
+    let tags: String
     let count: Int
 }
