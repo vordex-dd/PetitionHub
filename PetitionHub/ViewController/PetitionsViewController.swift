@@ -20,6 +20,7 @@ class PetitionsViewController: UIViewController {
     }
     private var table = UITableView()
     private var ref: DatabaseReference! = Database.database().reference()
+    private var stack = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,7 @@ class PetitionsViewController: UIViewController {
         }
         setUpRightButton()
         setUpTable()
+        setUpStack()
         load()
     }
     
@@ -67,10 +69,33 @@ class PetitionsViewController: UIViewController {
         table.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
+    func setUpStack() {
+        let activityInd = UIActivityIndicatorView()
+        activityInd.style = .medium
+        activityInd.startAnimating()
+        activityInd.translatesAutoresizingMaskIntoConstraints = false
+        stack.addArrangedSubview(activityInd)
+        stack.axis = .vertical
+        let label = UILabel()
+        label.text = "Загрузка"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = CONFIG.deviderColor
+        stack.addArrangedSubview(label)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stack)
+        stack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        stack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        //stack.baselineAdjustment = .alignCenters
+    }
+    
     func load() {
         ref.child("petitions").observe(DataEventType.value) { [weak self] data   in
             guard let information = data.value as? [String: [String: Any]] else { return }
             self?.allPetition = []
+            self?.stack.isHidden = true
             for (key, value) in information {
                 self?.allPetition.append(Petition(title: key, description: value["description"] as? String ?? "", tags: value["tags"] as? String ?? "", count: value["count"] as? Int ?? 0))
             }
