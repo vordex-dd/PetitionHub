@@ -11,7 +11,8 @@ import Firebase
 class PetitionsViewController: UIViewController {
 
     private let user = UserProfile()
-    private var allPetition: [Petition] = [] {
+    private var allPetition: [Petition] = []
+    private var filterPetition: [Petition] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.table.reloadData()
@@ -19,8 +20,10 @@ class PetitionsViewController: UIViewController {
         }
     }
     private var table = UITableView()
+    private var searchField = UITextField()
     private var ref: DatabaseReference! = Database.database().reference()
     private var stack = UIStackView()
+    private var curFilter = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +40,7 @@ class PetitionsViewController: UIViewController {
             //present(authViewController, animated: true)
         }
         setUpRightButton()
+        setUpSearchField()
         setUpTable()
         setUpStack()
         load()
@@ -57,15 +61,39 @@ class PetitionsViewController: UIViewController {
         navigationController?.pushViewController(createViewController, animated: true)
     }
     
+    func setUpSearchField() {
+        let line = UIView()
+        view.addSubview(line)
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        line.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        line.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        line.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        //line.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
+        line.backgroundColor = CONFIG.deviderColor
+        line.layer.borderWidth = CONFIG.borderWidth
+        line.layer.borderColor = CONFIG.borderColor
+        line.layer.cornerRadius = CONFIG.cornerRadiusForSearch
+        line.addSubview(searchField)
+        searchField.translatesAutoresizingMaskIntoConstraints = false
+        searchField.topAnchor.constraint(equalTo: line.topAnchor).isActive = true
+        searchField.leadingAnchor.constraint(equalTo: line.leadingAnchor, constant: 10).isActive = true
+        searchField.trailingAnchor.constraint(equalTo: line.trailingAnchor, constant: -10).isActive = true
+        searchField.bottomAnchor.constraint(equalTo: line.bottomAnchor).isActive = true
+        searchField.placeholder = "Поиск"
+        searchField.backgroundColor = CONFIG.deviderColor
+        searchField.delegate = self
+    }
+    
     func setUpTable() {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = CONFIG.backgroundColor
         table.delegate = self
         table.dataSource = self
         view.addSubview(table)
-        table.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
-        table.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        table.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        table.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 10).isActive = true
+        table.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        table.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         table.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
@@ -100,6 +128,17 @@ class PetitionsViewController: UIViewController {
                 self?.allPetition.append(Petition(title: key, description: value["description"] as? String ?? "", tags: value["tags"] as? String ?? "", count: value["count"] as? Int ?? 0))
             }
             self?.allPetition.sort { $0.count > $1.count }
+            self?.filterPet()
+        }
+    }
+    
+    func filterPet() {
+        filterPetition = []
+        for current in allPetition {
+            let name = current.title.lowercased()
+            if name.range(of: curFilter) != nil || curFilter == "" {
+                filterPetition.append(current)
+            }
         }
     }
 
@@ -108,12 +147,12 @@ class PetitionsViewController: UIViewController {
 
 extension PetitionsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        allPetition.count
+        filterPetition.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let curPerson = allPetition[indexPath.row]
+        let curPerson = filterPetition[indexPath.row]
         cell.backgroundColor = CONFIG.backgroundColor
         cell.layer.cornerRadius = CONFIG.cornerRadius
         cell.textLabel?.text = curPerson.title
@@ -121,9 +160,21 @@ extension PetitionsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.detailTextLabel?.numberOfLines = 0
         cell.detailTextLabel?.text = "\(curPerson.description)\nТеги: \(curPerson.tags)\nПодписей: \(curPerson.count)"
         cell.textLabel?.numberOfLines = 0
-        cell.separatorInset = UIEdgeInsets(top: 100, left: 0, bottom: 10, right: 0)
+        //cell.separatorInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         return cell
     }
     
     
+}
+
+
+extension PetitionsViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
+            curFilter = text.replacingCharacters(in: textRange, with: string).lowercased()
+        }
+        filterPet()
+        return true
+    }
 }

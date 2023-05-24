@@ -19,7 +19,7 @@ struct CONFIG {
     static let borderColor = CGColor(gray: 0.3, alpha: 1)
     static let borderWidth: CGFloat = 1
     static let cornerRadius: CGFloat = 5
-
+    static let cornerRadiusForSearch: CGFloat = 16
     static let segmentSelectedColor: UIColor = .systemGreen
 
     static let searchFieldTextColor: UIColor = .white
