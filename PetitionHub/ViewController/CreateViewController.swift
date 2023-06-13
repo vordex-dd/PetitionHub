@@ -43,9 +43,14 @@ class CreateViewController: UIViewController {
             showAlert("Необходимо заполнить все поля")
             return
         }
+        guard let id = Auth.auth().currentUser?.uid else {
+            showAlert("Необходимо войти в аккаунт")
+            return
+        }
         ref.child("petitions").child(name).child("description").setValue(description)
         ref.child("petitions").child(name).child("tags").setValue(tags)
         ref.child("petitions").child(name).child("count").setValue(0)
+        ref.child("petitions").child(name).child("users").child("settings").setValue(0)
         navigationController?.popViewController(animated: true)
     }
     

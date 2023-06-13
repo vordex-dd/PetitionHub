@@ -164,6 +164,13 @@ extension PetitionsViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailsViewController = DetailsViewController()
+        detailsViewController.currentPetition = filterPetition[indexPath.row]
+        navigationController?.pushViewController(detailsViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+    }
     
 }
 
@@ -177,4 +184,5 @@ extension PetitionsViewController: UITextFieldDelegate {
         filterPet()
         return true
     }
+    
 }

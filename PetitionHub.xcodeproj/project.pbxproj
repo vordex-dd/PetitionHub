@@ -23,6 +23,7 @@
 		0A7CD9232A0BF5DF0024E5F6 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0A7CD9222A0BF5DF0024E5F6 /* FirebaseDatabaseSwift */; };
 		0A7CD9252A0D39A90024E5F6 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CD9242A0D39A90024E5F6 /* CreateViewController.swift */; };
 		0A7CD9272A0D3A8F0024E5F6 /* Petition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7CD9262A0D3A8F0024E5F6 /* Petition.swift */; };
+		0A84A4162A3722A000921D01 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84A4152A3722A000921D01 /* DetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		0A7CD9192A0BF4DB0024E5F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0A7CD9242A0D39A90024E5F6 /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		0A7CD9262A0D3A8F0024E5F6 /* Petition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Petition.swift; sourceTree = "<group>"; };
+		0A84A4152A3722A000921D01 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				0A7CD90C2A0BC8D10024E5F6 /* PetitionsViewController.swift */,
 				0A7CD9102A0BD07A0024E5F6 /* AuthenticationViewController.swift */,
 				0A7CD9242A0D39A90024E5F6 /* CreateViewController.swift */,
+				0A84A4152A3722A000921D01 /* DetailsViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				0A7CD9112A0BD07A0024E5F6 /* AuthenticationViewController.swift in Sources */,
 				0A7CD90D2A0BC8D10024E5F6 /* PetitionsViewController.swift in Sources */,
 				0A7CD8FB2A0BC4A20024E5F6 /* SceneDelegate.swift in Sources */,
+				0A84A4162A3722A000921D01 /* DetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
