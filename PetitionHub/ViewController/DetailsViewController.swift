@@ -60,22 +60,42 @@ class DetailsViewController: UIViewController {
     }
     
     func setUpTitle() {
+        let line = UIView()
+        view.addSubview(line)
+        line.translatesAutoresizingMaskIntoConstraints = false
         titles.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(titles)
-        titles.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
-        titles.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        titles.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        titles.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        titles.backgroundColor = CONFIG.deviderColor
+        line.backgroundColor = CONFIG.deviderColor
+        line.layer.cornerRadius = 10
+        line.addSubview(titles)
+        line.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        line.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        line.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        titles.leadingAnchor.constraint(equalTo: line.leadingAnchor, constant: 10).isActive = true
+        titles.trailingAnchor.constraint(equalTo: line.trailingAnchor, constant: -10).isActive = true
+        titles.topAnchor.constraint(equalTo: line.topAnchor, constant: 5).isActive = true
+        titles.bottomAnchor.constraint(equalTo: line.bottomAnchor, constant: -5).isActive = true
+        //titles.heightAnchor.constraint(equalToConstant: 35).isActive = true
         titles.text = currentPetition?.title
         titles.font = titles.font?.withSize(27)
     }
     
     func setUpText() {
+        let line = UIView()
+        view.addSubview(line)
+        line.translatesAutoresizingMaskIntoConstraints = false
         text.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(text)
-        text.topAnchor.constraint(equalTo: titles.bottomAnchor, constant: 10).isActive = true
-        text.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        text.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        line.addSubview(text)
+        line.topAnchor.constraint(equalTo: titles.bottomAnchor, constant: 15).isActive = true
+        line.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        line.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        text.topAnchor.constraint(equalTo: line.topAnchor, constant: 5).isActive = true
+        text.bottomAnchor.constraint(equalTo: line.bottomAnchor, constant: -5).isActive = true
+        text.leadingAnchor.constraint(equalTo: line.leadingAnchor, constant: 10).isActive = true
+        text.trailingAnchor.constraint(equalTo: line.trailingAnchor, constant: -10).isActive = true
+        text.backgroundColor = CONFIG.deviderColor
+        line.backgroundColor = CONFIG.deviderColor
+        line.layer.cornerRadius = 10
         text.numberOfLines = 0
         text.text = "\(currentPetition?.description ?? "")\nТеги: \(currentPetition?.tags ?? "")\nПодписей: \(currentPetition?.count ?? 0)"
     }

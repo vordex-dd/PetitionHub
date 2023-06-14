@@ -156,9 +156,11 @@ extension PetitionsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = CONFIG.backgroundColor
         cell.layer.cornerRadius = CONFIG.cornerRadius
         cell.textLabel?.text = curPerson.title
+        cell.textLabel?.font = cell.textLabel?.font.withSize(20)
         cell.textLabel?.numberOfLines = 0
         cell.detailTextLabel?.numberOfLines = 0
         cell.detailTextLabel?.text = "\(curPerson.description)\nТеги: \(curPerson.tags)\nПодписей: \(curPerson.count)"
+        cell.detailTextLabel?.font = cell.detailTextLabel?.font.withSize(17)
         cell.textLabel?.numberOfLines = 0
         //cell.separatorInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         return cell
